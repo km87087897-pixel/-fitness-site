@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>哑铃增肌计划 · 记录本</title>
+<style>
+:root{--bg:#0f1115;--card:#181b22;--line:#272b34;--tx:#e8eaf0;--sub:#9aa0ad;
+--acc:#4f8cff;--good:#35c26f;--warn:#f0b429;--bad:#ef5b5b;--pink:#e0569b}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--tx);font:15px/1.55 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+body{padding:0 0 62px}
+.wrap{max-width:520px;margin:0 auto;padding:0 12px}
+header{position:sticky;top:0;z-index:20;background:rgba(15,17,21,.92);backdrop-filter:blur(10px);
+border-bottom:1px solid var(--line);padding:10px 12px}
+.h1{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;justify-content:space-between}
+.tag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:#1e2634;color:var(--acc)}
+.tabs{display:flex;gap:6px;margin-top:10px}
+.tabs button{flex:1;padding:9px 4px;border:1px solid var(--line);background:var(--card);color:var(--sub);
+border-radius:10px;font-size:13px;font-weight:600;cursor:pointer}
+.tabs button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+nav.bot{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);
+display:flex;max-width:520px;margin:0 auto;z-index:30}
+nav.bot button{flex:1;padding:8px 2px 11px;background:none;border:none;color:var(--sub);
+font-size:11px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+nav.bot button svg{width:20px;height:20px}
+nav.bot button.on{color:var(--acc)}
+.page{display:none;padding:12px 0}
+.page.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:12px}
+.ttl{font-size:15px;font-weight:700;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.sub{color:var(--sub);font-size:13px}
+.pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;background:#212836;color:var(--sub);font-weight:600}
+.daybtns{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.daybtns button{padding:9px 2px;border-radius:11px;border:1px solid var(--line);background:var(--card);
+color:var(--sub);font-size:12px;font-weight:700;cursor:pointer}
+.daybtns button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.daybtns button.done{border-color:var(--good);color:var(--good)}
+.ex{display:flex;gap:10px;padding:11px 0;border-top:1px solid var(--line)}
+.ex:first-of-type{border-top:none;padding-top:4px}
+.figwrap{width:62px;height:80px;flex:0 0 62px;background:#11141a;border-radius:9px;display:flex;align-items:center;justify-content:center}
+.figwrap svg{width:56px;height:74px}
+.main{flex:1;min-width:0}
+.ename{font-weight:700;font-size:14.5px}
+.hint{color:var(--sub);font-size:11.5px;margin:2px 0 7px}
+.sets{display:flex;flex-direction:column;gap:4px}
+.setrow{display:grid;grid-template-columns:30px 1fr 1fr 34px;gap:5px;align-items:center}
+.setrow label{font-size:10.5px;color:var(--sub);text-align:center;font-weight:700}
+.setrow input{background:#11141a;border:1px solid var(--line);border-radius:8px;color:var(--tx);
+padding:7px 5px;font-size:13px;width:100%;text-align:center}
+.setrow input:focus{outline:none;border-color:var(--acc)}
+.rbtn{background:none;border:none;color:var(--bad);font-size:16px;padding:2px 0;cursor:pointer}
+.addset{margin-top:8px;background:#1b2230;border:1px dashed #2f3a4f;color:var(--sub);
+padding:7px;border-radius:9px;width:100%;font-size:12.5px;font-weight:700;cursor:pointer}
+.tip{margin-top:7px;font-size:11.5px;padding:6px 9px;border-radius:8px;background:#132018;color:#7fd8a4;display:none}
+.tip.show{display:block}
+.sticky-note{font-size:11.5px;color:var(--warn);margin-bottom:6px}
+.btn{padding:11px 14px;border:none;border-radius:11px;font-size:14px;font-weight:700;cursor:pointer}
+.btn.primary{background:var(--acc);color:#fff}
+.btn.ghost{background:#1b2230;color:var(--tx)}
+.row{display:flex;gap:8px}
+.row .btn{flex:1}
+.macro{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.macro div{background:#11141a;border:1px solid var(--line);border-radius:11px;padding:10px 6px;text-align:center}
+.macro b{display:block;font-size:19px;color:var(--acc)}
+.macro span{font-size:11px;color:var(--sub)}
+.prog{height:8px;background:#11141a;border-radius:6px;overflow:hidden;margin-top:6px}
+.prog i{display:block;height:100%;background:var(--good);transition:width .3s}
+input.big{width:100%;background:#11141a;border:1px solid var(--line);border-radius:10px;color:var(--tx);padding:11px;font-size:16px}
+.hint2{font-size:12px;color:var(--sub);margin-bottom:10px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.stats div{background:#11141a;border:1px solid var(--line);border-radius:11px;padding:11px}
+.stats b{display:block;font-size:20px}
+.stats span{font-size:11px;color:var(--sub)}
+.chk{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.chk:first-child{border-top:none}
+.chk input{width:20px;height:20px;accent-color:var(--good);flex:0 0 20px}
+.chk label{flex:1;font-size:13.5px;cursor:pointer}
+.chk.done label{text-decoration:line-through;color:var(--sub)}
+.hi-card{background:linear-gradient(135deg,#16203a,#1a1f2c);border:1px solid #263349}
+ul.clean{list-style:none}
+ul.clean li{padding:6px 0 6px 18px;position:relative;font-size:13.5px;border-bottom:1px solid var(--line)}
+ul.clean li:last-child{border:none}
+ul.clean li:before{content:">";position:absolute;left:2px;color:var(--acc);font-weight:700}
+.kv{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px;gap:8px}
+.kv:last-child{border:none}
+.kv b{color:var(--good)}
+#toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#22293a;color:var(--tx);
+padding:10px 18px;border-radius:11px;font-size:13px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:99;
+border:1px solid var(--line);max-width:88%;text-align:center}
+#toast.show{opacity:1}
+*{touch-action:manipulation}
+/* 日程条：一排7天，一眼看这周哪天练啥 */
+.weekbar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:11px}
+.weekbar .d{padding:7px 2px;border-radius:9px;border:1px solid var(--line);background:#14171e;
+text-align:center;font-size:10px;line-height:1.35;color:var(--sub)}
+.weekbar .d b{display:block;font-size:13px;font-weight:700;margin-bottom:1px}
+.weekbar .d.today{border-color:var(--acc);background:#1b2334}
+.weekbar .d.lit{border-color:#2f6b4a;background:#16241c}
+.weekbar .d.lit b{color:var(--good)}
+.weekbar .d.tab{border-color:#3d3520}
+.weekbar .d.tab b{color:var(--warn)}
+.weekbar .d.done{border-color:var(--good);background:#16241c}
+.weekbar .d.done b{color:var(--good)}
+.weekbar .d.today::after{content:"今";display:block;font-size:9px;color:var(--acc);font-weight:700;margin-top:1px}
+/* 热身/有氧条目 */
+.wmin{padding:8px 0;border-top:1px solid var(--line)}
+.wmin:first-child{border-top:none}
+.wrow{display:flex;align-items:center;gap:9px;cursor:pointer}
+.wrow input{width:19px;height:19px;accent-color:var(--good);flex:0 0 19px}
+.wrow label{flex:1;font-size:13px}
+.wrow .dur{font-size:11px;color:var(--sub);flex:0 0 auto;padding:2px 7px;border-radius:8px;background:#14171e}
+.wmin.done label{text-decoration:line-through;color:var(--sub)}
+.warmcard{background:linear-gradient(135deg,#14201c,#171d28);border:1px solid #24352c}
+.tabcard{background:linear-gradient(135deg,#241d12,#1d1a24);border:1px solid #3d3520}
+.selpill{display:inline-flex;gap:5px;flex-wrap:wrap;margin:5px 0 6px}
+.selpill button{font-size:11px;padding:4px 9px;border-radius:8px;border:1px solid var(--line);
+background:#14171e;color:var(--sub);font-weight:600;cursor:pointer}
+.selpill button.on{background:#2a2140;border-color:#5b4a8a;color:#c4b0f0}
+.note-box{font-size:11.5px;color:var(--sub);margin:6px 0 8px;line-height:1.6;padding:7px 9px;
+border-radius:8px;background:#14171e;border-left:2px solid var(--warn)}
+.repl-box{font-size:11.5px;color:#e0c07a;margin:5px 0 7px;line-height:1.6;padding:7px 9px;
+border-radius:8px;background:#251f12;border-left:2px solid var(--warn)}
+@media (max-width:380px){.card{padding:12px}.ex{padding:11px}.setrow{grid-template-columns:30px 62px 58px 26px}
+.weekbar{gap:3px}.weekbar .d{font-size:9.5px}.weekbar .d b{font-size:12px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="h1"><span>哑铃增肌 · 记录本</span><span class="tag" id="weekNo">第1周</span></div>
+ <div class="tabs" id="tabs">
+  <button data-p="log" class="on">今日训练</button>
+  <button data-p="hist">重量进度</button>
+  <button data-p="plan">计划详情</button>
+  <button data-p="me">我的</button>
+ </div>
+</header>
+<div class="wrap">
+
+<section class="page on" id="p-log">
+ <div class="weekbar" id="weekbar"></div>
+ <div class="daybtns" id="days"></div>
+ <div class="card hi-card">
+  <div class="ttl"><span id="dayName">--</span><span class="pill" id="dayPill">未开始</span></div>
+  <div class="sub" id="dayDesc"></div>
+ </div>
+ <div class="card warmcard">
+  <div class="ttl"><span>热身 5 分钟</span><span class="sub" id="warmCnt">0/3</span></div>
+  <div class="hint2">练前必做。目的是激活关节和神经，不是练喘。别做到力竭。</div>
+  <div id="warmList"></div>
+ </div>
+ <div class="card tabcard" id="tabataWrap" style="display:none">
+  <div class="ttl"><span>Tabata 有氧</span><span class="sub">10-15 分钟</span></div>
+  <div class="hint2" style="color:#d8c48a">当天安排在有氧位，练腿的第二天做。当有氧补充，不当力量训练，别抢走力量日的体力。</div>
+  <div class="wmin"><div class="wrow"><input type="checkbox" id="tabataChk"><label>今日 Tabata 完成</label><span class="dur">10-15分</span></div></div>
+ </div>
+ <div class="card">
+  <div class="ttl"><span>动作清单</span><span class="sub" id="restTxt">组间休60-90秒</span></div>
+  <div id="exList"></div>
+ </div>
+ <div class="row">
+  <button class="btn primary" id="btnDone">完成今天</button>
+ </div>
+</section>
+
+<section class="page" id="p-hist">
+ <div class="card">
+  <div class="ttl">总览</div>
+  <div class="stats">
+   <div><b id="s1">0</b><span>累计训练日</span></div>
+   <div><b id="s2">0</b><span>完成组数</span></div>
+   <div><b id="s3">0</b><span>连续记录天数</span></div>
+   <div><b id="s4">0%</b><span>本周计划完成</span></div>
+  </div>
+  <div class="hint2" style="margin-top:11px">本周训练天数（目标4天）</div>
+  <div class="prog"><i id="wkProg" style="width:0"></i></div>
+ </div>
+ <div class="card">
+  <div class="ttl">重量提升排行 <span class="sub">首次 vs 最近</span></div>
+  <div id="gains"><div class="sub">完成至少2次训练后，这里会显示哪些动作重量涨了。</div></div>
+ </div>
+ <div class="card">
+  <div class="ttl">历史记录</div>
+  <div id="recList"><div class="sub">暂无记录。</div></div>
+  <button class="btn ghost" id="btnExp" style="margin-top:10px;width:100%">导出全部数据 (JSON)</button>
+ </div>
+</section>
+
+<section class="page" id="p-plan">
+ <div class="card hi-card">
+  <div class="ttl">你的基本信息</div>
+  <div class="kv"><span>目标</span><b>增肌回填 · 停止减脂</b></div>
+  <div class="kv"><span>当前</span><b>182cm / 78kg (BMI 23.6)</b></div>
+  <div class="kv"><span>建议蛋白质</span><b>130-160g / 天</b></div>
+  <div class="kv"><span>建议热量</span><b>2400-2600 kcal / 天</b></div>
+  <div class="kv"><span>建议体重区间</span><b>80-82kg 无需恐慌</b></div>
+ </div>
+ <div class="card">
+  <div class="ttl">为什么 Tabata 不够</div>
+  <ul class="clean">
+   <li>Tabata 是有氧/HIIT，肌肉刺激强度远低于哑铃渐进超负荷</li>
+   <li>减脂期掉的瘦体重只能靠<b>大重量复合动作</b>练回来</li>
+   <li>腹部循环练的是耐力和核心稳定，能保留但不能增肌</li>
+   <li>建议：每周 Tabata 最多 2 次，当有氧补充，不当主力</li>
+  </ul>
+ </div>
+ <div class="card">
+  <div class="ttl">六条铁律</div>
+  <ul class="clean">
+   <li><b>渐进超负荷</b>：标准做到区间上限，下次加重量或加1次</li>
+   <li><b>接近力竭</b>：每组留1-2次余力，最后2次要龇牙</li>
+   <li><b>蛋白 1.7-2g/kg</b>：分4餐，每餐35-40g</li>
+   <li><b>吃到维持或微盈余</b>，体重涨到80-82kg不用慌</li>
+   <li><b>睡够7小时</b>，40岁恢复靠睡</li>
+   <li><b>前2周只做6成功夫</b>，肌腱比肌肉弱，别受伤</li>
+  </ul>
+ </div>
+ <div class="card">
+  <div class="ttl">常见动作图解</div>
+  <div id="planDetail"></div>
+ </div>
+</section>
+
+<section class="page" id="p-me">
+ <div class="card">
+  <div class="ttl">今日饮食打卡</div>
+  <div class="hint2">蛋白目标 145g（可在下面改）</div>
+  <div class="row" style="margin-bottom:9px">
+   <input class="big" id="protIn" type="number" inputmode="decimal" placeholder="今日蛋白 g">
+   <button class="btn primary" id="protAdd" style="flex:0 0 84px">+ 加</button>
+  </div>
+  <div class="macro">
+   <div><b id="mP">0</b><span>已吃 g</span></div>
+   <div><b id="mC">145</b><span>目标 g</span></div>
+   <div><b id="mL">0</b><span>餐次</span></div>
+  </div>
+  <div class="prog"><i id="pProg" style="width:0"></i></div>
+  <div class="sub" style="margin-top:8px" id="pMsg"></div>
+  <div class="row" style="margin-top:11px">
+   <input class="big" id="goalIn" type="number" inputmode="numeric" placeholder="改蛋白目标 g">
+   <button class="btn ghost" id="goalSet">保存目标</button>
+  </div>
+  <div class="row" style="margin-top:10px">
+   <input class="big" id="wtIn" type="number" inputmode="decimal" step="0.1" placeholder="今日体重 kg">
+   <button class="btn ghost" id="wtSet" style="flex:0 0 76px">记体重</button>
+  </div>
+  <div class="sub" id="wtHist" style="margin-top:8px;line-height:1.7"></div>
+  <button class="btn ghost" id="expBtn" style="width:100%;margin-top:12px">导出全部记录(备份)</button>
+  <div class="sub" style="margin-top:10px;text-align:center">数据存在本机浏览器<br>换手机前请先导出备份</div>
+ </div>
+ <div class="card">
+  <div class="ttl">每日习惯</div>
+  <div id="dailyChk"></div>
+ </div>
+ <div class="card">
+  <div class="ttl">数据管理</div>
+  <div class="hint2">数据只存在你手机本机，不上传任何服务器。</div>
+  <div class="row" style="margin-bottom:8px">
+   <button class="btn ghost" id="btnExp2">备份</button>
+   <button class="btn ghost" id="btnImp">恢复备份</button>
+  </div>
+  <button class="btn ghost" id="btnDel" style="width:100%;color:var(--bad);border:1px solid #3a2226">清空全部数据</button>
+ </div>
+</section>
+</div>
+
+<nav class="bot">
+ <button data-p="log" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7v10M18 7v10M3 9v6M21 9v6M6 12h12"/></svg>训练</button>
+ <button data-p="hist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6"/></svg>进度</button>
+ <button data-p="plan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h9l4 4v14H6zM9 12h6M9 16h6M9 8h3"/></svg>计划</button>
+ <button data-p="me"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>我的</button>
+</nav>
+<div id="toast"></div>
+<input type="file" id="fileIn" accept="application/json" style="display:none">
+
+<script>
+/* ============ 动作示意图（火柴人 SVG） ============ */
+const HEAD='<circle cx="28" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="2.4"/>';
+const L=(a,b,c,d,w)=>'<line x1="'+a+'" y1="'+b+'" x2="'+c+'" y2="'+d+'" stroke="currentColor" stroke-width="'+(w||2.4)+'" stroke-linecap="round"/>';
+const DBL=(x,y)=>'<g stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="'+(x-6)+'" y1="'+y+'" x2="'+(x+6)+'" y2="'+y+'"/><circle cx="'+(x-6)+'" cy="'+y+'" r="2.6" fill="currentColor"/><circle cx="'+(x+6)+'" cy="'+y+'" r="2.6" fill="currentColor"/></g>';
+const PULL=(x,y)=>'<g stroke="#4f8cff" stroke-width="2" stroke-dasharray="3 3"><line x1="'+x+'" y1="'+y+'" x2="'+x+'" y2="'+(y+16)+'"/><path d="M'+(x-4)+' '+(y+13)+'L'+x+' '+(y+19)+'L'+(x+4)+' '+(y+13)+'" fill="none" stroke="#4f8cff"/></g>';
+const UP=(x,y)=>'<g stroke="#35c26f" stroke-width="2" stroke-dasharray="3 3"><line x1="'+x+'" y1="'+y+'" x2="'+x+'" y2="'+(y-16)+'"/><path d="M'+(x-4)+' '+(y-13)+'L'+x+' '+(y-19)+'L'+(x+4)+' '+(y-13)+'" fill="none" stroke="#35c26f"/></g>';
+const GROUND=(y)=>'<line x1="10" y1="'+y+'" x2="46" y2="'+y+'" stroke="currentColor" stroke-width="2" stroke-opacity="0.3"/>';
+
+const FIG={
+ squat:HEAD+L(28,14,28,36)+L(28,36,19,52)+L(28,36,37,52)+L(19,52,17,64)+L(37,52,39,64)+L(28,22,15,30)+L(28,22,41,30)+DBL(15,26)+GROUND(68),
+ rd:HEAD+L(28,14,24,36)+L(24,36,20,50)+L(24,36,30,44)+L(30,44,36,42)+L(20,50,18,64)+L(36,42,42,56)+L(24,20,20,34)+L(24,20,38,32)+DBL(38,30)+PULL(38,30),
+ row:HEAD+L(28,14,26,38)+L(26,38,24,60)+L(26,38,38,52)+L(38,52,36,62)+L(26,22,40,16)+DBL(40,16)+UP(40,16),
+ bench:HEAD+'<line x1="6" y1="46" x2="50" y2="46" stroke="currentColor" stroke-width="2.4"/>'+L(8,46,8,60)+L(48,46,48,60)+L(22,30,22,46)+L(22,46,14,60)+L(22,46,30,60)+L(22,30,22,16)+DBL(22,16)+UP(22,16),
+ ohp:HEAD+L(28,14,28,36)+L(28,36,20,52)+L(28,36,36,52)+L(20,52,18,64)+L(36,52,38,64)+L(28,22,28,14)+DBL(28,10)+UP(28,14),
+ fly:HEAD+L(28,14,28,36)+L(28,36,20,52)+L(28,36,36,52)+L(20,52,18,64)+L(36,52,38,64)+L(28,22,12,26)+L(28,22,44,26)+DBL(12,26)+DBL(44,26)+'<path d="M14 30 Q14 38 22 34" fill="none" stroke="#35c26f" stroke-width="1.6"/><path d="M42 30 Q42 38 34 34" fill="none" stroke="#35c26f" stroke-width="1.6"/>',
+ side:HEAD+L(28,14,28,36)+L(28,36,20,52)+L(28,36,36,52)+L(20,52,18,64)+L(36,52,38,64)+L(28,22,44,20)+L(28,22,20,24)+DBL(44,20)+UP(44,20),
+ leg:HEAD+L(28,14,28,38)+L(28,38,22,50)+L(22,50,20,64)+L(28,38,40,30)+'<line x1="36" y1="32" x2="46" y2="32" stroke="currentColor" stroke-width="2.4"/><line x1="42" y1="32" x2="42" y2="44" stroke="currentColor" stroke-width="1.6" stroke-opacity="0.4"/>'+L(28,22,16,30)+DBL(16,30),
+ gl:HEAD+'<line x1="6" y1="44" x2="50" y2="44" stroke="currentColor" stroke-width="2.4"/>'+L(8,44,8,58)+L(48,44,48,58)+L(28,28,28,44)+L(28,28,14,40)+L(28,28,42,40)+L(14,40,20,46)+L(42,40,36,46)+'<line x1="14" y1="20" x2="42" y2="20" stroke="#e0569b" stroke-width="2.6"/>'+DBL(28,18)+UP(28,20),
+ calf:HEAD+L(28,14,28,36)+L(28,36,20,50)+L(28,36,36,50)+L(20,50,18,60)+L(36,50,38,60)+L(28,22,44,18)+DBL(44,18)+'<line x1="4" y1="66" x2="22" y2="66" stroke="currentColor" stroke-width="4"/><line x1="34" y1="66" x2="52" y2="66" stroke="currentColor" stroke-width="4"/>',
+ curl:HEAD+L(28,14,28,36)+L(28,36,20,52)+L(28,36,36,52)+L(20,52,18,64)+L(36,52,38,64)+L(28,22,40,26)+DBL(40,26)+PULL(40,26),
+ bird:HEAD+'<line x1="8" y1="46" x2="48" y2="46" stroke="currentColor" stroke-width="2.4"/>'+L(10,46,10,60)+L(46,46,46,60)+L(22,34,28,38)+L(28,38,34,34)+L(28,38,30,44)+L(28,38,34,44)+L(28,38,14,30)+L(28,38,42,30)+DBL(14,30)+DBL(42,30)+'<path d="M16 32 Q22 28 26 34" fill="none" stroke="#35c26f" stroke-width="1.6"/><path d="M40 32 Q34 28 30 34" fill="none" stroke="#35c26f" stroke-width="1.6"/>',
+ raise:HEAD+L(28,14,28,36)+L(28,36,20,52)+L(28,36,36,52)+L(20,52,20,64)+L(36,52,36,64)+L(28,22,14,14)+'<circle cx="12" cy="12" r="4" fill="none" stroke="#4f8cff" stroke-width="2.2"/><g stroke="#4f8cff" stroke-width="1.6" stroke-dasharray="2 2"><line x1="14" y1="14" x2="30" y2="40"/></g>',
+ plank:HEAD+'<line x1="6" y1="42" x2="50" y2="42" stroke="currentColor" stroke-width="2.4"/>'+L(8,42,8,54)+L(48,42,48,54)+L(18,34,32,36)+L(32,36,44,42)+L(32,36,44,36)+L(44,42,46,54)+'<g stroke="#4f8cff" stroke-width="1.6" stroke-dasharray="2 2"><line x1="20" y1="26" x2="20" y2="30"/><path d="M18 28 L20 30 L22 28" fill="none"/></g>',
+ dbplank:HEAD+L(28,14,28,36)+L(28,36,20,52)+L(28,36,36,52)+L(20,52,16,58)+L(36,52,40,58)+L(28,22,16,30)+L(28,22,40,30)+'<line x1="8" y1="66" x2="48" y2="66" stroke="currentColor" stroke-width="2.4"/>'+DBL(16,30)+DBL(40,30)+'<path d="M16 34 Q14 44 22 42" fill="none" stroke="#35c26f" stroke-width="1.6"/><path d="M40 34 Q42 44 34 42" fill="none" stroke="#35c26f" stroke-width="1.6"/>',
+ pulldown:HEAD+'<line x1="14" y1="4" x2="42" y2="4" stroke="currentColor" stroke-width="2.4"/><line x1="28" y1="4" x2="28" y2="14" stroke="#4f8cff" stroke-width="1.8" stroke-dasharray="2 2"/>'+L(28,20,28,42)+L(28,42,20,56)+L(28,42,36,56)+L(20,56,18,66)+L(36,56,38,66)+L(28,26,40,12)+L(28,26,20,12)+'<path d="M24 16 L28 20 L32 16" fill="none" stroke="currentColor" stroke-width="2.2"/>',
+};
+
+/* ============ 训练计划数据 ============ */
+const PLAN=[
+ {id:'d1',name:'Day1 上肢推+腹',tag:'推+腹',wday:1,wlab:'周一',rest:'组间休 60-90秒',
+  desc:'胸 / 肩 / 三头 / 腹。上肢推为主，重量优先上胸和肩部。',
+  ex:[
+   {k:'bench',n:'哑铃卧推',sets:4,rep:'8-10',tip:'躺凳子或地板，脚踩稳，下放至触胸弹起。肘部约45度不锁死肩。前2周只做6成功夫'},
+   {k:'ohp',n:'哑铃过头推举',sets:3,rep:'8-10',tip:'坐姿或站姿，下放至耳侧，推起头顶，核心收紧别后仰'},
+   {k:'fly',n:'弹力带夹胸',sets:3,rep:'12-15',tip:'带子绑门框或身后，挺胸，想象抱大树，顶峰停1秒'},
+   {k:'side',n:'哑铃侧平举',sets:3,rep:'12-15',tip:'重量宁小勿大，微屈肘，平举到肩高不耸肩'},
+   {k:'raise',n:'仰卧举腿',sets:3,rep:'12',tip:'仰卧膝盖弯曲抬起，腰部紧贴地面，下放不碰地'}
+  ]},
+ {id:'d2',name:'Day2 下肢',tag:'下肢',wday:2,wlab:'周二',rest:'组间休 90-120秒',
+  desc:'腿是增肌的发动机，练完24小时内睾酮峰值最高，别省。',
+  ex:[
+   {k:'squat',n:'高脚杯深蹲',sets:4,rep:'10-12',tip:'哑铃竖抱胸前，蹲至大腿与地面平行，膝盖朝脚尖方向'},
+   {k:'rd',n:'罗马尼亚硬拉',sets:4,rep:'10',tip:'微屈膝，髋关节后推，背挺直，拉到膝盖下方，感受大腿后侧拉伸'},
+   {k:'leg',n:'保加利亚分腿蹲',sets:3,rep:'8/腿',tip:'后脚踩凳，前腿下蹲，躯干直立，动作幅度比深蹲大',
+    w1:'第1周替换：普通箭步蹲 3x10/腿（后脚不着地，前腿下蹲，膝盖别过脚尖，重心居中）'},
+   {k:'gl',n:'弹力带臀桥',sets:3,rep:'15',tip:'带子套膝上方，顶峰夹紧臀部停1秒'},
+   {k:'calf',n:'站姿提踵',sets:4,rep:'15',tip:'前脚掌踩台阶，完全下放再顶起，节奏慢'}
+  ]},
+ {id:'d3',name:'Day3 上肢拉+腹',tag:'拉+腹',wday:4,wlab:'周四',rest:'组间休 60-90秒',
+  desc:'背 / 二头 / 后肩。拉的动作要体会手肘向后，不是用手拽。',
+  ex:[
+   {k:'row',n:'单手哑铃划船',sets:4,rep:'10/侧',tip:'一手撑凳，背挺直，手肘贴近身体向后拉，拉向髋部'},
+   {k:'pulldown',n:'弹力带高位下拉/门框划船',sets:4,rep:'12',tip:'带子挂高处，挺胸，下拉到胸口，肩胛骨下沉'},
+   {k:'bird',n:'反向飞鸟',sets:3,rep:'15',tip:'俯身，微屈肘向两侧抬起，练后肩三角肌'},
+   {k:'curl',n:'哑铃弯举',sets:3,rep:'10',tip:'大臂固定不动，只动小臂，顶峰停1秒，别甩'},
+   {k:'dbplank',n:'平板支撑+侧桥',sets:3,rep:'45s+30s',tip:'平板核心收紧别塌腰；侧桥身体成一条直线，别上下晃'}
+  ]},
+ {id:'d4',name:'Day4 全身+弱点',tag:'全身补',wday:6,wlab:'周六',rest:'组间休 2-3分钟',
+  desc:'重复合动作，稍重少量次数。挑这周最弱的2个部位各补2组。',
+  ex:[
+   {k:'squat',n:'深蹲或硬拉（重）',sets:3,rep:'5',tip:'重量是普通次数的1.3-1.5倍，动作严格，不借力'},
+   {k:'bench',n:'哑铃卧推（重）',sets:3,rep:'5',tip:'同上次深蹲逻辑，重量大、次数少、组间充分休息'},
+   {k:'row',n:'划船（中等）',sets:3,rep:'8',tip:'重量适中，节奏1秒拉3秒放，强调控制'},
+   {k:'fly',n:'弱点补 A',sets:2,rep:'12-15',tip:'从下面选你本周最弱的那个部位',weak:1,weakIdx:0},
+   {k:'bird',n:'弱点补 B',sets:2,rep:'12-15',tip:'第二个弱点部位，选和 A 不一样的',weak:2,weakIdx:1}
+  ]}
+];
+
+const WARMUP=[
+ {n:'开合跳',dur:'40秒 x 3',d:'原地跳起同时双手击掌，膝盖微屈，落地缓冲，别踮脚着地'},
+ {n:'空手深蹲',dur:'15个 x 2',d:'不拿哑铃，先做一组标准深蹲，蹲到大腿平行，膝盖朝脚尖'},
+ {n:'肩绕环',dur:'前20+后20',d:'双手平举向前绕大圈再向后绕，打开肩关节，感觉不到阻力才算到位'}
+];
+const TABATA={title:'Tabata 有氧',mins:'10-15 分钟',
+ d:'练腿的第二天做，当有氧补充，不当力量训练，别抢走力量日的体力。',
+ items:[{n:'20秒全力 10秒休息 x 8个动作',dur:'8组'},
+        {n:'动作选：开合跳 / 高抬腿 / 深蹲跳 / 波比',dur:'自选'},
+        {n:'结束后 2 组卷腹',dur:'15次'}]};
+/* 一周日程：JS getDay() 0=周日 1=周一 … 6=周六。
+   力量 周一/二/四/六，有氧 周三/周日（腿日次日），休息 周五 */
+const SCHED={1:{t:'lit',id:'d1',lab:'力量·推'},2:{t:'lit',id:'d2',lab:'力量·腿'},
+             3:{t:'tab',lab:'有氧Tabata'},4:{t:'lit',id:'d3',lab:'力量·拉'},
+             5:{t:'rest',lab:'休息'},6:{t:'lit',id:'d4',lab:'力量·全身'},0:{t:'tab',lab:'有氧Tabata'}};
+/* 按 getDay() 索引的星期名 */
+const WD=['日','一','二','三','四','五','六'];
+/* 日程条显示顺序：周一开头 */
+const WDORDER=[1,2,3,4,5,6,0];
+/* 弱点动作库：选哪个补哪个，动作和次数都给你定好 */
+const WEAK=[
+ {k:'shoulder',lab:'肩弱',n:'哑铃侧平举',rep:'3x15',d:'重量宁小勿大，微屈肘，平举到肩高不耸肩。肩后侧再加弹力带面拉 3x15（带挂高处拉到脸前，拉到位挤压肩胛）'},
+ {k:'bicep',lab:'二头弱',n:'哑铃弯举',rep:'3x12',d:'大臂贴体固定不动，只动小臂，顶峰停1秒，全程别甩'},
+ {k:'calf',lab:'小腿弱',n:'站姿提踵',rep:'4x20',d:'前脚掌踩台阶，脚跟完全下沉再顶到最高，节奏慢，感觉不到就单腿做'},
+ {k:'core',lab:'腹弱',n:'仰卧举腿',rep:'3x15',d:'上背贴地双腿并拢抬起，下放不碰地，收腹别挺腰'},
+ {k:'pull',lab:'背弱',n:'弹力带下拉',rep:'3x15',d:'带挂高处，挺胸，下拉到大臂平行地面，肩胛骨下沉别后仰'},
+ {k:'quadricep',lab:'大腿前侧弱',n:'高脚杯深蹲',rep:'3x12',d:'哑铃竖抱胸前，蹲到大腿与地面平行，膝盖朝脚尖方向'}
+];
+
+const HABITS=[
+ '早餐蛋白至少35g（鸡蛋2个+牛奶+乳清）',
+ '全天不断加餐，不刻意节食',
+ '睡前不看短视频，保证7小时睡眠',
+ '本周至少1次重量创新高',
+ '每天同一地点同一灯光拍一次正面+侧面照',
+];
+
+/* ============ 存储 ============ */
+const LS='dummpell_v1';
+let DB;
+function load(){
+ try{DB=JSON.parse(localStorage.getItem(LS))||{}}catch(e){DB={}}
+ if(!DB.log)DB.log={};
+ if(!DB.prot)DB.prot={};
+ if(!DB.protCnt)DB.protCnt={};
+ if(!DB.hab)DB.hab={};
+ if(!DB.wt)DB.wt={};
+ if(!DB.weakCh)DB.weakCh={};
+ if(!DB.goal)DB.goal=145;
+ /* 旧版单槽记录迁移为 日期_训练日 索引 */
+ let migrated=false;
+ Object.keys(DB.log).forEach(function(k){
+  if(k.indexOf('_')<0&&DB.log[k]&&DB.log[k].day){
+   DB.log[k+'_'+DB.log[k].day]=DB.log[k];delete DB.log[k];migrated=true;
+  }
+ });
+ if(migrated)try{localStorage.setItem(LS,JSON.stringify(DB))}catch(e){}
+ if(!DB.start)DB.start=Date.now();
+}
+function save(){localStorage.setItem(LS,JSON.stringify(DB))}
+load();
+
+/* ============ 工具 ============ */
+const $=s=>document.querySelector(s);
+const todayKey=()=>new Date().toISOString().slice(0,10);
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._);t._=setTimeout(()=>t.classList.remove('show'),2200)}
+function repUpper(s){const m=/(\d+)/.exec(s);return m?+m[1]:12}
+function weekNo(){return Math.floor((Date.now()-(DB.start||Date.now()))/(7*864e5))+1}
+function recKey(dayId){return todayKey()+'_'+(dayId||curDay)}
+function getRec(dayId){const r=DB.log[recKey(dayId)];if(!r)return null;return r}
+/* 按部位归类，让 Day4 的重复合动作能带出 Day1/Day2/Day3 的历史重量 */
+function partOf(name){
+ if(/卧推|推举|夹胸|侧平举/.test(name))return 'push';
+ if(/深蹲|硬拉|分腿|臀桥|提踵/.test(name))return 'leg';
+ if(/划船|高位下拉|飞鸟/.test(name))return 'pull';
+ if(/弯举/.test(name))return 'bicep';
+ if(/举腿|平板|侧桥/.test(name))return 'core';
+ return '';
+}
+/* 找某个动作名历史最近一次完成的组；exact=false 时按部位模糊匹配 */
+function lastSets(exName){
+ /* 历史按部位匹配（同部位不同动作共享重量参考），同日已填的不算历史 */
+ let best=null;
+ const ks=Object.keys(DB.log).sort().reverse().filter(function(k){return !k.startsWith(todayKey())});
+ for(const k of ks){
+  const r=DB.log[k];
+  if(!r||!r.done||!r.ex)continue;
+  for(const e of r.ex){
+   if(e.name===exName||partOf(e.name)===partOf(exName)&&partOf(exName)!==''){
+    const done=e.sets.filter(function(s){return s.kg&&s.reps});
+    if(done.length){best={key:k.replace('_'+k.split('_').pop(),''),done:done,name:e.name};break}
+   }
+  }
+  if(best)break;
+ }
+ return best;
+}
+
+/* ============ 渲染：训练页 ============ */
+let curDay='d1';
+/* 一周日程条：周一开头显示。gd=getDay() 值(0=周日)，s=该天的日程 */
+function renderWeek(){
+ const today=new Date().getDay();
+ let h='';
+ for(let i=0;i<7;i++){
+  const gd=WDORDER[i];
+  const s=SCHED[gd];
+  const rec=s.id?getRec(s.id):null;
+  const done=s.id&&rec&&rec.done;
+  const tabDone=s.t==='tab'&&gd===today&&DB.hab[todayKey()]&&DB.hab[todayKey()]['tabata'];
+  let cls='';
+  if(gd===today)cls+=' today';
+  if(s.t==='lit')cls+=' lit';
+  if(s.t==='tab')cls+=' tab';
+  if(done||tabDone)cls+=' done';
+  const mark=done||tabDone?'<span style="color:var(--good);font-size:10px">✓</span>':'<span style="opacity:.35">·</span>';
+  h+='<div class="d'+cls+'"><b>'+WD[gd]+'</b>'
+   +s.lab.replace('力量·','')
+   +'<div style="margin-top:1px">'+mark+'</div></div>';
+ }
+ $('#weekbar').innerHTML=h;
+}
+/* 今天该练哪天：力量日自动切过去，有氧/休息日保持当前 */
+function syncDayToToday(){
+ const s=SCHED[new Date().getDay()];
+ if(s&&s.t==='lit'){curDay=s.id}
+}
+function renderDays(){
+ $('#days').innerHTML=PLAN.map(d=>{
+  const rec=getRec(d.id);
+  const isToday=(d.wday===new Date().getDay());
+  return '<button data-d="'+d.id+'" class="'+(d.id===curDay?'on':'')+(rec&&rec.done?' done':'')+'">'
+   +'<span style="display:block;font-size:11px;opacity:.75">'+(isToday?'今 ':'')+d.wlab+'</span>'
+   +d.tag+'</button>';
+ }).join('');
+ document.querySelectorAll('#days button').forEach(b=>b.onclick=()=>{curDay=b.dataset.d;renderDays();renderDay();renderWarmTab()});
+ renderWeek();
+}
+/* 按今天星期把 curDay 设为当天该练的那天；休息/有氧日不高亮任何力量日 */
+function isDayScheduled(id){
+ const s=SCHED[new Date().getDay()];
+ return s&&s.t==='lit'&&s.id===id;
+}
+function renderDay(){
+ const d=PLAN.find(x=>x.id===curDay);
+ $('#dayName').innerHTML=d.name+' <span class="pill">'+d.wlab+'</span>';
+ $('#dayDesc').textContent=d.desc;
+ $('#restTxt').textContent=d.rest;
+ const rec=getRec(d.id);
+ const sameDay=!!rec;
+ $('#dayPill').textContent=(rec&&rec.done)?'已完成':(sameDay?'进行中':'未开始');
+ $('#dayPill').style.color=(rec&&rec.done)?'var(--good)':'var(--sub)';
+
+ let html='';
+ d.ex.forEach((e,ei)=>{
+  const prev=(rec&&rec.ex&&rec.ex[ei])?rec.ex[ei]:null;
+  const lb=lastSets(e.n,false);
+  const lbLine=lb?('上次 <b style="color:var(--good)">'+lb.done[0].kg+'kg x '+lb.done[0].reps+'</b>  ('+lb.key+(lb.name&&lb.name!==e.n?(' '+lb.name):'')+')'):'';
+  /* 第一周保加利亚分腿蹲替换提示 */
+  const w1=(e.w1&&weekNo()<=1)?'<div class="repl-box">'+e.w1+'</div>':'';
+  /* 弱点部位选择器 */
+  const wkBox=renderWeakBox(e,ei);
+  html+='<div class="ex">'+
+   '<div class="figwrap" style="color:#c9d1e0"><svg viewBox="0 0 56 74">'+(FIG[e.k]||'')+'</svg></div>'+
+   '<div class="main">'+
+    '<div class="ename">'+e.n+' <span class="pill">'+e.sets+'x'+e.rep+'</span></div>'+
+    '<div class="hint">'+e.tip+'</div>'+
+    wkBox+
+    (lbLine?'<div class="sticky-note">'+lbLine+'</div>':'')+
+    w1+
+    '<div class="sets" data-ei="'+ei+'">'+
+     Array.from({length:prev?prev.sets.length:e.sets},function(_,si){
+      var s=(prev&&prev.sets[si])?(prev.sets[si]||{kg:'',reps:''}):{kg:(lb&&si<lb.done.length)?lb.done[si].kg:'',reps:''};
+      return setRow(si,s);
+     }).join('')+
+    '</div>'+
+    '<button class="addset" data-add="'+ei+'">+ 加一组</button>'+
+    '<div class="tip" id="tip'+ei+'"></div>'+
+   '</div>'+
+  '</div>';
+ });
+ $('#exList').innerHTML=html;
+ bindSets(d);
+ d.ex.forEach(function(e,ei){renderTip(ei,e,(rec&&rec.ex&&rec.ex[ei])||null)});
+}
+function setRow(si,s){
+ return '<div class="setrow" data-i="'+si+'">'+
+  '<label>'+(si+1)+'</label>'+
+  '<input type="number" step="0.5" inputmode="decimal" placeholder="kg" value="'+(s.kg||'')+'" class="kg">'+
+  '<input type="number" inputmode="numeric" placeholder="次" value="'+(s.reps||'')+'" class="reps">'+
+  '<button class="rbtn" data-del="'+si+'">x</button>'+
+ '</div>';
+}
+/* 确保当前记录存在。saveFirst=true 时先把旧记录入库（防切日覆盖丢数据） */
+function ensureRec(d){
+ const k=recKey(d.id);
+ if(!DB.log[k])DB.log[k]={date:new Date().toISOString(),day:d.id,ex:d.ex.map(function(x){return {name:x.n,sets:[{kg:'',reps:''}]}})};
+ return DB.log[k];
+}
+function bindSets(d){
+ document.querySelectorAll('#exList .setrow').forEach(function(r){
+  ['kg','reps'].forEach(function(c){
+   r.querySelector('.'+c).addEventListener('input',function(ev){
+    const ei=+r.parentElement.dataset.ei, i=+r.dataset.i;
+    const rec=ensureRec(d);
+    if(!rec.ex[ei])rec.ex[ei]={name:d.ex[ei].n,sets:[{kg:'',reps:''}]};
+    if(!rec.ex[ei].sets[i])rec.ex[ei].sets[i]={kg:'',reps:''};
+    rec.ex[ei].sets[i][c]=ev.target.value;
+    save();renderTip(ei,d.ex[ei],rec.ex[ei]);
+   });
+  });
+ });
+ document.querySelectorAll('#exList .addset').forEach(function(b){
+  b.onclick=function(){
+   const ei=+b.dataset.add;
+   const rec=ensureRec(d);
+   if(!rec.ex[ei])rec.ex[ei]={name:d.ex[ei].n,sets:[{kg:'',reps:''}]};
+   rec.ex[ei].sets.push({kg:'',reps:''});
+   save();renderDay();
+  };
+ });
+ document.querySelectorAll('#exList .rbtn').forEach(function(b){
+  b.onclick=function(){
+   const wrap=b.closest('.sets');
+   const ei=+wrap.dataset.ei, i=+b.dataset.del;
+   const rec=ensureRec(d);
+   if(rec.ex[ei]&&rec.ex[ei].sets.length>1){rec.ex[ei].sets.splice(i,1);save();renderDay()}
+   else toast('至少保留一组');
+  };
+ });
+ document.querySelectorAll('#exList .selpill button').forEach(function(b){
+  b.onclick=function(){
+   const ei=+b.dataset.ei, idx=+b.dataset.wi;
+   const cur=DB.weakCh||{};
+   cur[ei]=idx;
+   DB.weakCh=cur;save();
+   renderDay();
+  };
+ });
+}
+/* 弱点补 A/B：让用户自己选补哪个部位，选中后显示该部位的具体动作和组次 */
+function renderWeakBox(e,ei){
+ if(!e.weak)return '';
+ const cur=DB.weakCh||{};
+ let sel=cur[ei];
+ if(sel===undefined||sel===null){sel=e.weakIdx}
+ const w=WEAK[sel];
+ return '<div class="note-box">选你这次要补的部位（已选：<b style="color:#c4b0f0">'+w.lab+'</b>）</div>'
+  +'<div class="selpill">'
+  +WEAK.map(function(x,i){return '<button data-ei="'+ei+'" data-wi="'+i+'" class="'+(i===sel?'on':'')+'">'+x.lab+'</button>'}).join('')
+  +'</div>'
+  +'<div class="hint" style="color:var(--tx)"><b>'+w.n+'</b> · '+w.rep+'　'+w.d+'</div>';
+}
+/* 热身 + 有氧：按今天星期决定显示哪张卡，勾选状态按日期持久化 */
+function renderWarmTab(){
+ const today=new Date().getDay();
+ const s=SCHED[today];
+ $('#warmList').innerHTML=WARMUP.map(function(w,i){
+  const chk=DB.hab[todayKey()]&&DB.hab[todayKey()]['warm'+i];
+  return '<div class="wmin'+(chk?' done':'')+'"><div class="wrow"><input type="checkbox" data-wi="'+i+'"'+(chk?' checked':'')
+   +'><label>'+w.n+'<div style="font-size:11px;color:var(--sub);margin-top:2px">'+w.d+'</div></label>'
+   +'<span class="dur">'+w.dur+'</span></div></div>';
+ }).join('');
+ $('#warmCnt').textContent=Object.keys(WARMUP).length>0?Object.keys(DB.hab[todayKey()]||{}).filter(function(k){return /^warm[0-9]/.test(k)}).length+'/'+WARMUP.length:'0/3';
+ document.querySelectorAll('#warmList input[data-wi]').forEach(function(c){
+  c.onchange=function(){
+   if(!DB.hab[todayKey()])DB.hab[todayKey()]={};
+   DB.hab[todayKey()]['warm'+c.dataset.wi]=c.checked;
+   save();renderWarmTab();
+   const n=Object.keys(DB.hab[todayKey()]).filter(function(k){return /^warm[0-9]/.test(k)}).length;
+   if(n===WARMUP.length)toast('热身完成，开始训练');
+  };
+ });
+ /* Tabata 只在有氧日显示 */
+ const showTab=(s&&s.t==='tab');
+ $('#tabataWrap').style.display=showTab?'block':'none';
+ if(showTab){
+  $('#tabataChk').checked=!!(DB.hab[todayKey()]&&DB.hab[todayKey()]['tabata']);
+  $('#tabataChk').onchange=function(){
+   const chk=$('#tabataChk').checked;
+   if(!DB.hab[todayKey()])DB.hab[todayKey()]={};
+   DB.hab[todayKey()]['tabata']=chk;
+   save();renderWeek();
+   toast(chk?'Tabata 打卡完成':'已取消');
+  };
+ }
+}
+function renderTip(ei,e,ex){
+ const tip=$('#tip'+ei);
+ if(!tip)return;
+ const sets=(ex&&ex.sets)?ex.sets:[];
+ const done=sets.filter(function(s){return s.kg&&s.reps});
+ const up=repUpper(e.rep);
+ if(done.length===0){tip.classList.remove('show');return}
+ const kg=done[done.length-1].kg;
+ const repsOk=done.length>=e.sets && done.every(function(s){return +s.reps>=up});
+ if(repsOk&&kg){
+  tip.innerHTML='OK '+e.sets+'组全部做到'+up+'次+ → 下次可以加1-2kg，或保持重量加1次';
+  tip.classList.add('show');tip.style.background='#1a2a1f';tip.style.color='#7fd8a4';
+ }else{
+  const miss=e.sets-done.length;
+  if(miss>0){
+   tip.innerHTML='还差 '+miss+' 组 → 先做满'+e.sets+'组再考虑加重';
+   tip.classList.add('show');tip.style.background='#2a2416';tip.style.color='#e6c463';
+  }else{
+   tip.classList.remove('show');
+  }
+ }
+}
+
+/* ============ 完成今天 ============ */
+$('#btnDone').onclick=function(){
+ const d=PLAN.find(function(x){return x.id===curDay});
+ const rec=getRec(d.id);
+ if(!rec){toast('今天还没录入数据，先填重量和次数');return}
+ const filled=rec.ex.reduce(function(a,e){return a+e.sets.filter(function(s){return s.kg&&s.reps}).length},0);
+ if(filled===0){toast('至少填1组数据才能记完成');return}
+ if(!confirm('完成 '+d.name+'?\n已录入 '+filled+' 组。'))return;
+ rec.done=1;rec.finishedAt=new Date().toISOString();save();
+ toast('完成! 下次同部位加重量');
+ renderDays();renderDay();
+};
+
+/* ============ 进度页 ============ */
+function renderHist(){
+ const done=Object.keys(DB.log).filter(function(k){return DB.log[k].done});
+ const setsN=done.reduce(function(a,k){
+  return a+DB.log[k].ex.reduce(function(b,e){return b+e.sets.filter(function(s){return s.kg&&s.reps}).length},0);
+ },0);
+ const days=new Set(done.map(function(k){return DB.log[k].date.slice(0,10)}));
+ let streak=0,dt=new Date();
+ while(true){const k=dt.toISOString().slice(0,10);if(days.has(k))streak++;else break;dt=new Date(dt.getTime()-864e5)}
+ const now=new Date();
+ const mon=new Date(now);mon.setDate(now.getDate()-((now.getDay()+6)%7));
+ let wk=0;
+ for(let i=0;i<7;i++){const d2=new Date(mon.getTime()+i*864e5);if(days.has(d2.toISOString().slice(0,10)))wk++}
+ $('#s1').textContent=days.size;
+ $('#s2').textContent=setsN;
+ $('#s3').textContent=streak;
+ $('#s4').textContent=Math.round(Math.min(wk/4,1)*100)+'%';
+ $('#wkProg').style.width=Math.min(wk/4*100,100)+'%';
+ $('#weekNo').textContent='第'+weekNo()+'周';
+
+ const gains=[];
+ PLAN.forEach(function(d){d.ex.forEach(function(e){
+  const all=[];
+  Object.keys(DB.log).sort().filter(function(k){return DB.log[k].done}).forEach(function(k){
+   const ex=DB.log[k].ex.find(function(x){return x.name===e.n});
+   if(ex){const b=ex.sets.filter(function(s){return s.kg&&s.reps});if(b.length)all.push({k:k,b:b})}
+  });
+  if(all.length>=2){
+   const a=all[0].b[0],b=all[all.length-1].b[0];
+   if(+b.kg>+a.kg)gains.push({n:e.n,from:a.kg,to:b.kg,d:all[all.length-1].k});
+  }
+ })});
+ $('#gains').innerHTML=gains.length
+  ? gains.map(function(g){return '<div class="kv"><span>'+g.n+'</span><b>'+g.from+'kg -> '+g.to+'kg</b></div>'}).join('')
+    +'<div class="sub" style="margin-top:8px">渐进超负荷进行中，共 '+gains.length+' 个动作加重。</div>'
+  : '<div class="sub">完成至少2次训练后，这里会显示哪些动作重量涨了。</div>';
+
+ const list=Object.keys(DB.log).sort().reverse().filter(function(k){return DB.log[k].done});
+ $('#recList').innerHTML=list.length
+  ? list.slice(0,30).map(function(k){
+      const r=DB.log[k];
+      const n=r.ex.reduce(function(a,e){return a+e.sets.filter(function(s){return s.kg&&s.reps}).length},0);
+      const nm=PLAN.find(function(x){return x.id===k.split('_').pop()});
+      return '<div class="kv"><span>'+k+' · '+(nm?nm.name:'')+'</span><b>'+n+' 组</b></div>';
+    }).join('')
+  : '<div class="sub">暂无记录。</div>';
+}
+
+/* ============ 计划页 ============ */
+function renderPlan(){
+ $('#planDetail').innerHTML=PLAN.map(function(d){
+  return '<div style="margin-bottom:14px">'+
+   '<div class="ename" style="margin-bottom:2px">'+d.name+'</div>'+
+   '<div class="hint" style="margin-bottom:8px">'+d.desc+'</div>'+
+   d.ex.map(function(e){
+    return '<div class="ex">'+
+     '<div class="figwrap" style="color:#c9d1e0"><svg viewBox="0 0 56 74">'+(FIG[e.k]||'')+'</svg></div>'+
+     '<div class="main"><div class="ename">'+e.n+' <span class="pill">'+e.sets+'x'+e.rep+'</span></div>'+
+     '<div class="hint">'+e.tip+'</div></div>'+
+    '</div>';
+   }).join('')+
+  '</div>';
+ }).join('');
+}
+
+/* ============ 我的页 ============ */
+function updateProt(){
+ const k=todayKey();
+ const p=DB.prot[k]||0,c=DB.protCnt[k]||0,goal=DB.goal||145;
+ $('#mP').textContent=p;
+ $('#mC').textContent=goal;
+ $('#mL').textContent=c;
+ $('#pProg').style.width=Math.min(p/goal*100,100)+'%';
+ $('#pMsg').innerHTML=(p>=goal?'OK 达标!':'还差 '+Math.round(goal-p)+'g')
+  +'<br>高蛋白参考：鸡蛋1个约7g · 鸡胸100g约23g · 牛奶250ml约8g · 乳清一勺约24g · 瘦牛肉100g约26g';
+}
+$('#protAdd').onclick=function(){
+ const v=parseFloat($('#protIn').value);
+ if(!v||v<=0){toast('输入蛋白克数');return}
+ const k=todayKey();
+ DB.prot[k]=(DB.prot[k]||0)+v;
+ DB.protCnt[k]=(DB.protCnt[k]||0)+1;
+ $('#protIn').value='';
+ save();updateProt();
+ toast('+'+v+'g 蛋白已记录');
+};
+$('#goalSet').onclick=function(){
+ const v=parseFloat($('#goalIn').value);
+ if(!v||v<=0||v>400){toast('目标应在 10-400g');return}
+ DB.goal=v;$('#goalIn').value='';save();updateProt();
+ toast('蛋白目标已改为 '+v+'g');
+};
+/* 体重记录 */
+$('#wtSet').onclick=function(){
+ const v=parseFloat($('#wtIn').value);
+ if(!v||v<=30||v>200){toast('体重应在 30-200kg');return}
+ DB.wt[todayKey()]=v;$('#wtIn').value='';save();renderWt();
+ const ks=Object.keys(DB.wt).sort();
+ const prev=ks.length>1?DB.wt[ks[ks.length-2]]:null;
+ const d=prev?(v-prev):0;
+ toast('体重 '+v+'kg'+(prev?((d>0?' +':' ')+d+'kg'):'（首次记录）'));
+};
+function renderWt(){
+ const ks=Object.keys(DB.wt).sort().reverse();
+ $('#wtHist').innerHTML=ks.length?ks.slice(0,6).map(function(k){
+  return '<span style="display:inline-block;margin-right:10px">'+k.slice(5)+' <b style="color:var(--acc)">'+DB.wt[k]+'</b>kg</span>'
+ }).join(''):'<span style="color:var(--sub2)">尚未记录体重</span>';
+}
+/* 导出备份 */
+$('#expBtn').onclick=function(){
+ const data=JSON.stringify(DB,null,1);
+ const blob=new Blob([data],{type:'application/json'});
+ const a=document.createElement('a');
+ a.href=URL.createObjectURL(blob);
+ a.download='fitness-backup-'+new Date().toISOString().slice(0,10)+'.json';
+ document.body.appendChild(a);a.click();a.remove();
+ toast('已导出备份文件，请存到微信/相册/网盘');
+};
+$('#dailyChk').innerHTML=HABITS.map(function(h,i){
+ return '<div class="chk" data-h="'+i+'"><input type="checkbox" id="h'+i+'"><label for="h'+i+'">'+h+'</label></div>';
+}).join('');
+function syncHab(){
+ const k=todayKey(),h=DB.hab[k];
+ document.querySelectorAll('#dailyChk .chk').forEach(function(c,i){
+  c.querySelector('input').checked=!!(h&&h[i]);
+  c.classList.toggle('done',!!(h&&h[i]));
+ });
+}
+document.querySelectorAll('#dailyChk .chk').forEach(function(c){
+ c.querySelector('input').onchange=function(ev){
+  const k=todayKey(),i=c.dataset.h;
+  DB.hab[k]=DB.hab[k]||{};
+  DB.hab[k][i]=ev.target.checked;
+  c.classList.toggle('done',ev.target.checked);
+  save();
+ };
+});
+function doExport(){
+ const blob=new Blob([JSON.stringify(DB,null,1)],{type:'application/json'});
+ const a=document.createElement('a');
+ a.href=URL.createObjectURL(blob);
+ a.download='dummpell-backup-'+todayKey()+'.json';
+ a.click();
+ toast('备份已下载，存好文件');
+}
+$('#btnExp').onclick=doExport;
+$('#btnExp2').onclick=doExport;
+$('#btnImp').onclick=function(){$('#fileIn').click()};
+$('#fileIn').onchange=function(e){
+ const f=e.target.files[0];if(!f)return;
+ const r=new FileReader();
+ r.onload=function(){try{DB=JSON.parse(r.result);if(!DB.log)DB.log={};if(!DB.prot)DB.prot={};if(!DB.protCnt)DB.protCnt={};if(!DB.hab)DB.hab={};if(!DB.goal)DB.goal=145;if(!DB.start)DB.start=Date.now();save();location.reload()}catch(_){toast('文件格式不对')}};
+ r.readAsText(f);
+};
+$('#btnDel').onclick=function(){if(confirm('清空全部数据?不可恢复。')){localStorage.removeItem(LS);location.reload()}};
+
+/* ============ 导航 ============ */
+function go(p){
+ document.querySelectorAll('.page').forEach(function(x){x.classList.remove('on')});
+ $('#p-'+p).classList.add('on');
+ document.querySelectorAll('[data-p]').forEach(function(b){b.classList.toggle('on',b.dataset.p===p)});
+ if(p==='hist')renderHist();
+ if(p==='me'){updateProt();syncHab();renderWt()}
+ if(p==='log'){renderDays();renderDay();renderWarmTab()}
+}
+document.querySelectorAll('[data-p]').forEach(function(b){b.onclick=function(){go(b.dataset.p)}});
+
+syncDayToToday();renderDays();renderDay();renderPlan();updateProt();syncHab();renderWarmTab();
+$('#weekNo').textContent='第'+weekNo()+'周';
+</script>
+</body>
+</html>
